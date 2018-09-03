@@ -8,15 +8,15 @@
  * @time: 11:42
  */
 
-namespace YaBand\WechatPay\Controller\Checkout;
+namespace YaBandPay\Payment\Controller\Checkout;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use YaBand\WechatPay\Controller\Controller;
-use YaBand\WechatPay\Helper\General as YaBandWechatPayHelper;
-use YaBand\WechatPay\Model\Log;
+use YaBandPay\Payment\Controller\Controller;
+use YaBandPay\Payment\Helper\General as YaBandWechatPayHelper;
+use YaBandPay\Payment\Model\Log;
 
 class Redirect extends Controller
 {
@@ -81,7 +81,7 @@ class Redirect extends Controller
             }
             $method = $order->getPayment()->getMethod();
             $methodInstance = $this->paymentHelper->getMethodInstance($method);
-            if($methodInstance instanceof \YaBand\WechatPay\Model\WechatPay){
+            if($methodInstance instanceof \YaBandPay\Payment\Model\WechatPay){
                 $redirectUrl = $methodInstance->startTransaction($order);
                 $this->yaBandWechatPayHelper->addTolog('request', $redirectUrl);
                 $this->getResponse()->setRedirect($redirectUrl);

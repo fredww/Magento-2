@@ -8,21 +8,21 @@
  * @time: 13:49
  */
 
-namespace YaBand\WechatPay\Controller;
+namespace YaBandPay\Payment\Controller;
 
 
 use Magento\Framework\App\Action\Action;
-use YaBand\WechatPay\Helper\General;
-use YaBand\WechatPay\Model\Log;
+use YaBandPay\Payment\Helper\General;
+use YaBandPay\Payment\Model\Log;
 
 abstract class Controller extends Action
 {
     /**
-     * @var \YaBand\WechatPay\Helper\General
+     * @var \YaBandPay\Payment\Helper\General
      */
     protected $yaBandWechatPayHelper;
     /**
-     * @var \YaBand\WechatPay\Model\WechatPay
+     * @var \YaBandPay\Payment\Model\WechatPay
      */
     protected $wechatPay;
 

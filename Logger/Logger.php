@@ -8,7 +8,7 @@
  * @time: 20:57
  */
 
-namespace YaBand\WechatPay\Logger;
+namespace YaBandPay\Payment\Logger;
 
 class Logger extends \Monolog\Logger
 {

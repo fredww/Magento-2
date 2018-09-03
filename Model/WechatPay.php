@@ -1,6 +1,6 @@
 <?php
 
-namespace YaBand\WechatPay\Model;
+namespace YaBandPay\Payment\Model;
 
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Api\AttributeValueFactory;
@@ -22,8 +22,8 @@ use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Store\Model\StoreManagerInterface;
-use YaBand\WechatPay\Helper\General as YaBandWechatPayHelper;
-use YaBand\WechatPay\Helper\General;
+use YaBandPay\Payment\Helper\General as YaBandWechatPayHelper;
+use YaBandPay\Payment\Helper\General;
 
 /**
  * Class Mollie

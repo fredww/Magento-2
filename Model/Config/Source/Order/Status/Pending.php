@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace YaBand\WechatPay\Model\Config\Source\Order\Status;
+namespace YaBandPay\Payment\Model\Config\Source\Order\Status;
 
 
 /**

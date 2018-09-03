@@ -1,6 +1,6 @@
 <?php
 
-namespace YaBand\WechatPay\Setup;
+namespace YaBandPay\Payment\Setup;
 
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;

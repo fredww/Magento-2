@@ -8,7 +8,7 @@
  * @time: 20:55
  */
 
-namespace YaBand\WechatPay\Helper;
+namespace YaBandPay\Payment\Helper;
 
 use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -19,9 +19,9 @@ use Magento\Framework\Module\ModuleListInterface;
 use Magento\Sales\Model\Order;
 use Magento\Store\Model\StoreManagerInterface;
 use function var_export;
-use YaBand\WechatPay\Logger\Logger;
-use YaBand\WechatPay\Model\Log;
-use YaBand\WechatPay\Model\WechatPay;
+use YaBandPay\Payment\Logger\Logger;
+use YaBandPay\Payment\Model\Log;
+use YaBandPay\Payment\Model\WechatPay;
 
 /**
  * Class General

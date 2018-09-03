@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace YaBand\WechatPay\Logger;
+namespace YaBandPay\Payment\Logger;
 
 use Monolog\Logger;
 use Magento\Framework\Logger\Handler\Base;

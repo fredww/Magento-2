@@ -2,6 +2,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'YaBand_WechatPay',
+    'YaBandPay_Payment',
     __DIR__
 );

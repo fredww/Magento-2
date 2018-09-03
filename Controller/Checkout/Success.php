@@ -8,17 +8,17 @@
  * @time: 11:42
  */
 
-namespace YaBand\WechatPay\Controller\Checkout;
+namespace YaBandPay\Payment\Controller\Checkout;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use YaBand\WechatPay\Controller\Controller;
-use YaBand\WechatPay\Helper\General as YaBandWechatPayHelper;
-use YaBand\WechatPay\Helper\General;
-use YaBand\WechatPay\Model\Log;
-use YaBand\WechatPay\Model\WechatPay;
+use YaBandPay\Payment\Controller\Controller;
+use YaBandPay\Payment\Helper\General as YaBandWechatPayHelper;
+use YaBandPay\Payment\Helper\General;
+use YaBandPay\Payment\Model\Log;
+use YaBandPay\Payment\Model\WechatPay;
 
 class Success extends Controller
 {

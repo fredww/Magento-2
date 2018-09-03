@@ -8,7 +8,7 @@
  * @time: 23:28
  */
 
-namespace YaBand\WechatPay\Model;
+namespace YaBandPay\Payment\Model;
 
 class Log
 {
