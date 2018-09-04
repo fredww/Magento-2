@@ -23,7 +23,7 @@
                                                             <item name="children" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                                 <item name="wechatpay-wechatpay" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">YaBand_WechatPay/js/view/payment/wechatpay</item>
+                                                                    <item name="component" xsi:type="string">YaBandPay_Payment/js/view/payment/wechatpay</item>
                                                                     <item name="methods" xsi:type="array">
 																		 <item name="wechatpay" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
