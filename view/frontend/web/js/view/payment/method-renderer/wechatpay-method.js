@@ -26,7 +26,6 @@ define(
                 return window.checkoutConfig.payment.checkmo.mailingAddress;
             },
             afterPlaceOrder: function () {
-                console.log("afterPlaceOrder");
                 window.location.href = url.build('yabandwechatpay/checkout/redirect/');
             }
         });
