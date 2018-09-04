@@ -16,7 +16,7 @@ define(
         return Component.extend({
             redirectAfterPlaceOrder: false,
             defaults: {
-                template: 'YaBand_WechatPay/payment/wechatpay'
+                template: 'YaBandPay_Payment/payment/wechatpay'
             },
             getMethodImage: function () {
                 return checkoutConfig.image[this.item.method];

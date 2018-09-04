@@ -17,7 +17,7 @@ define(
         rendererList.push(
             {
                 type: 'wechatpay',
-                component: 'YaBand_WechatPay/js/view/payment/method-renderer/wechatpay-method'
+                component: 'YaBandPay_Payment/js/view/payment/method-renderer/wechatpay-method'
             }
         );
         /** Add view logic here if needed */
