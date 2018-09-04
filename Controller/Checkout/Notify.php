@@ -1,11 +1,11 @@
 <?php
 /**
- * @project: YabanPay-Magento2
+ * @project    : YabanPay-Magento2
  * @description:
- * @user: persi
+ * @user       : persi
  * @email persi@sixsir.com
- * @date: 2018/9/1
- * @time: 11:42
+ * @date       : 2018/9/1
+ * @time       : 11:42
  */
 
 namespace YaBandPay\Payment\Controller\Checkout;
@@ -17,41 +17,25 @@ use Magento\Framework\View\Result\PageFactory;
 use Magento\Payment\Helper\Data as PaymentHelper;
 use YaBandPay\Payment\Controller\Controller;
 use YaBandPay\Payment\Helper\General as YaBandWechatPayHelper;
-use YaBandPay\Payment\Model\Log;
 use YaBandPay\Payment\Model\WechatPay;
 
 class Notify extends Controller
 {
     /**
-     * @var PageFactory
-     */
-    protected $resultPageFactory;
-    /**
-     * @var PaymentHelper
-     */
-    protected $paymentHelper;
-    /**
-     * @var YaBandWechatPayHelper
-     */
-    protected $yaBandWechatPayHelper;
-
-    /**
      * Redirect constructor.
      *
-     * @param Context $context
-     * @param Session $checkoutSession
-     * @param PageFactory $resultPageFactory
-     * @param PaymentHelper $paymentHelper
+     * @param Context               $context
+     * @param Session               $checkoutSession
+     * @param PageFactory           $resultPageFactory
+     * @param PaymentHelper         $paymentHelper
      * @param YaBandWechatPayHelper $yaBandWechatPayHelper
      */
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory,
         PaymentHelper $paymentHelper,
         WechatPay $wechatPay,
         YaBandWechatPayHelper $yaBandWechatPayHelper
-    )
-    {
+    ) {
         $this->resultFactory = $context->getResultFactory();
         $this->paymentHelper = $paymentHelper;
         $this->yaBandWechatPayHelper = $yaBandWechatPayHelper;
@@ -64,9 +48,9 @@ class Notify extends Controller
      */
     public function execute()
     {
-        try{
+        try {
             $orderInfo = $this->parseOrderInfo();
-            if($orderInfo['status'] === true){
+            if ($orderInfo['status'] === true) {
                 $orderInfo = $orderInfo['order_info'];
                 $this->wechatPay->processTransaction($orderInfo);
             }
@@ -74,8 +58,10 @@ class Notify extends Controller
             $result->setHeader('content-type', 'text/plain');
             $result->setContents('OK', true);
             return $result;
-        }catch(\Exception $e){
-            $this->messageManager->addExceptionMessage($e, __($e->getMessage()));
+        } catch (\Exception $e) {
+            $this->messageManager->addExceptionMessage(
+                $e, __($e->getMessage())
+            );
             $this->yaBandWechatPayHelper->addTolog('error', $e->getMessage());
             $this->checkoutSession->restoreQuote();
             $this->_redirect('checkout/cart');

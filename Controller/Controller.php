@@ -1,22 +1,32 @@
 <?php
 /**
- * @project: YabanPay-Magento2
+ * @project    : YabanPay-Magento2
  * @description:
- * @user: persi
+ * @user       : persi
  * @email persi@sixsir.com
- * @date: 2018/9/1
- * @time: 13:49
+ * @date       : 2018/9/1
+ * @time       : 13:49
  */
 
 namespace YaBandPay\Payment\Controller;
 
-
 use Magento\Framework\App\Action\Action;
 use YaBandPay\Payment\Helper\General;
-use YaBandPay\Payment\Model\Log;
 
 abstract class Controller extends Action
 {
+    /**
+     * @var Session
+     */
+    protected $checkoutSession;
+    /**
+     * @var PageFactory
+     */
+    protected $resultPageFactory;
+    /**
+     * @var PaymentHelper
+     */
+    protected $paymentHelper;
     /**
      * @var \YaBandPay\Payment\Helper\General
      */
@@ -29,22 +39,24 @@ abstract class Controller extends Action
     public function parseOrderInfo()
     {
         $result = \file_get_contents('php://input');
-        if(!empty($result)){
+        if (!empty($result)) {
             $result = \urldecode($result);
-        }else{
+        } else {
             $resultData = $this->getRequest()->getParam('resultData');
-            if(!empty($resultData)){
+            if (!empty($resultData)) {
                 $result = $resultData;
-            }else{
+            } else {
                 return null;
             }
         }
-        if(\strpos($result, 'resultData=') !== false){
+        if (\strpos($result, 'resultData=') !== false) {
             $orderInfo = \substr($result, \strlen('resultData='));
-        }else{
+        } else {
             $orderInfo = $result;
         }
-        $orderInfo = General::verifySign($orderInfo, $this->yaBandWechatPayHelper->getApiToken());
+        $orderInfo = General::verifySign(
+            $orderInfo, $this->yaBandWechatPayHelper->getApiToken()
+        );
         return $orderInfo;
     }
 }

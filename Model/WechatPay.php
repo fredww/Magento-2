@@ -26,9 +26,11 @@ use YaBandPay\Payment\Helper\General as YaBandWechatPayHelper;
 use YaBandPay\Payment\Helper\General;
 
 /**
- * Class Mollie
+ * Class WechatPay
  *
- * @package Mollie\Payment\Model
+ * @package YaBandPay\Payment\Model
+ * @description
+ * @version 1.0.0
  */
 class WechatPay extends AbstractMethod
 {
