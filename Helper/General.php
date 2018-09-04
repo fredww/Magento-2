@@ -31,7 +31,6 @@ use YaBandPay\Payment\Model\WechatPay;
 class General extends AbstractHelper
 {
     const MODULE_CODE = WechatPay::CODE;
-    const CURRENCIES_WITHOUT_DECIMAL = ['CNY', 'EUR'];
     const WECHATPAY_USERNAME = 'payment/' . self::MODULE_CODE . '/username';
     const WECHATPAY_PASSWORD = 'payment/' . self::MODULE_CODE . '/password';
     const WECHATPAY_TOKEN = 'payment/' . self::MODULE_CODE . '/token';
@@ -182,7 +181,7 @@ class General extends AbstractHelper
 
     public function getPayCurrency($storeId)
     {
-        return 'EUR';
+        return $this->getStoreConfig(self::WECHATPAY_CURRENCY, $storeId);
     }
 
     /**
