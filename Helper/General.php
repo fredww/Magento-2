@@ -10,6 +10,7 @@
 
 namespace YaBandPay\Payment\Helper;
 
+use const CURLOPT_TIMEOUT;
 use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
@@ -19,7 +20,10 @@ use Magento\Framework\Module\ModuleListInterface;
 use Magento\Sales\Model\Order;
 use Magento\Store\Model\StoreManagerInterface;
 use YaBandPay\Payment\Logger\Logger;
+use YaBandPay\Payment\Model\Log;
 use YaBandPay\Payment\Model\WechatPay;
+use function microtime;
+use function var_export;
 
 /**
  * Class General
@@ -118,13 +122,13 @@ class General extends AbstractHelper
         Resolver $resolver,
         Logger $logger
     ) {
-        $this->storeManager = $storeManager;
+        $this->storeManager   = $storeManager;
         $this->resourceConfig = $resourceConfig;
-        $this->urlBuilder = $context->getUrlBuilder();
-        $this->moduleList = $moduleList;
-        $this->metadata = $metadata;
-        $this->resolver = $resolver;
-        $this->logger = $logger;
+        $this->urlBuilder     = $context->getUrlBuilder();
+        $this->moduleList     = $moduleList;
+        $this->metadata       = $metadata;
+        $this->resolver       = $resolver;
+        $this->logger         = $logger;
         parent::__construct($context);
     }
 
@@ -152,6 +156,7 @@ class General extends AbstractHelper
             $this->addTolog('error', 'YaBand WechatPay API Username not set');
         }
         $this->apiUsername = $apiUserName;
+
         return $this->apiUsername;
     }
 
@@ -164,6 +169,7 @@ class General extends AbstractHelper
             $this->addTolog('error', 'YaBand WechatPay API Username not set');
         }
         $this->apiPassword = $apiPassword;
+
         return $this->apiPassword;
     }
 
@@ -176,6 +182,7 @@ class General extends AbstractHelper
             $this->addTolog('error', 'YaBand WechatPay API Username not set');
         }
         $this->apiToken = $apiToken;
+
         return $this->apiToken;
     }
 
@@ -206,6 +213,7 @@ class General extends AbstractHelper
     public function getPayUrl(Order $order)
     {
         $orderId = $order->getId();
+
         return $this->generateOrderPayUrl(
             $orderId, $this->getOrderAmountByOrder($order),
             $this->getPayCurrency($order->getStoreId()),
@@ -294,14 +302,47 @@ class General extends AbstractHelper
     public function getOrderAmountByOrder(Order $order)
     {
         $orderAmount = $order->getBaseGrandTotal();
+
         return $orderAmount;
     }
 
-    private function generateOrderPayUrl($orderId, $totalAmount, $currency,
+    public function checkUserPasswordToken()
+    {
+        $username = $this->getApiUserName();
+        if ( ! $username) {
+            return false;
+        }
+        $password = $this->getApiPassword();
+        if ( ! $password) {
+            return false;
+        }
+        $token = $this->getApiToken();
+        if ( ! $token) {
+            return false;
+        }
+        $checkUrl    = 'https://api.yabandpay.com/check.php';
+        $nonceString = microtime(true);
+        $orderInfo   = array(
+            'user'         => $username,
+            'nonce_string' => $nonceString,
+            'sign1'        => hash('sha256', $username . $nonceString . $password),
+            'sign2'        => hash('sha256', $username . $nonceString . $token),
+        );
+
+        $result = $this->requestPost($checkUrl, \json_encode($orderInfo));
+        $result = \json_decode($result, true);
+        if (!isset($result['result']) || $result['result'] !== true) {
+            return false;
+        }
+        return true;
+    }
+
+    private function generateOrderPayUrl(
+        $orderId, $totalAmount, $currency,
         $description, $username, $password, $redirectUrl, $notifyUrl
     ) {
         $createPayUrl = 'https://api.yabandpay.com/getPayurl.php';
-        $orderInfo = array(
+        $orderInfo    = array(
             "pay_method"   => "wechatPay",
             "order_id"     => $orderId,
             "amount"       => $totalAmount,
@@ -312,12 +353,14 @@ class General extends AbstractHelper
             "redirect_url" => $redirectUrl,
             "notify_url"   => $notifyUrl
         );
+
         return $this->requestPost($createPayUrl, \json_encode($orderInfo));
     }
 
     private function queryOrderState($orderId)
     {
         $url = 'https://api.yabandpay.com/queryOrderState.php';
+
         return self::requestPost($url, array('ya_order_id' => $orderId));
     }
 
@@ -330,8 +373,10 @@ class General extends AbstractHelper
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 3);
         $result = curl_exec($curl);
         curl_close($curl);
+
         return $result;
     }
 
@@ -346,10 +391,10 @@ class General extends AbstractHelper
                 'msg'        => 'dot not found'
             );
         }
-        $dot_len = \strpos($data, '.');
-        $sign = \substr($data, 0, $dot_len);
+        $dot_len    = \strpos($data, '.');
+        $sign       = \substr($data, 0, $dot_len);
         $order_json = \substr($data, $dot_len + 1, \mb_strlen($data));
-        $new_sign = \hash_hmac('sha256', $order_json, $token);
+        $new_sign   = \hash_hmac('sha256', $order_json, $token);
         if ($new_sign !== $sign) {
             return array(
                 'status'     => false,
@@ -358,6 +403,7 @@ class General extends AbstractHelper
                 'msg'        => 'sign error'
             );
         }
+
         return array(
             'status'     => true,
             'order_info' => \json_decode($order_json, true),

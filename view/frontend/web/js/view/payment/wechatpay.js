@@ -14,12 +14,14 @@ define(
         rendererList
     ) {
         'use strict';
-        rendererList.push(
-            {
-                type: 'wechatpay',
-                component: 'YaBandPay_Payment/js/view/payment/method-renderer/wechatpay-method'
-            }
-        );
+        if(window.checkoutConfig.payment.wechatpay.isActive){
+            rendererList.push(
+                {
+                    type: 'wechatpay',
+                    component: 'YaBandPay_Payment/js/view/payment/method-renderer/wechatpay-method'
+                }
+            );
+        }
         /** Add view logic here if needed */
         return Component.extend({});
     }
