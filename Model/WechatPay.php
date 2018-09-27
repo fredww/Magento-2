@@ -37,8 +37,6 @@ class WechatPay extends AbstractMethod
     const CODE = 'wechatpay';
 
     protected $_code = self::CODE;
-
-    protected $_infoBlockType = '';
     /**
      * Enable Initialize
      *
